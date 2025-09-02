@@ -7,10 +7,14 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { LabelAndTextComponent } from './label-and-text/label-and-text.component';
 import { HeaderTextComponent } from './header-text/header-text.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
+//import { CategoryScale, Chart } from "chart.js";
+//Chart.register(CategoryScale);
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent, LabelAndTextComponent, HeaderTextComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [AppComponent, HomeComponent, NotFoundComponent, LabelAndTextComponent, HeaderTextComponent ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, LineChartComponent, PieChartComponent],
   providers: [],
   bootstrap: [AppComponent],
 })
