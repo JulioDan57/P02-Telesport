@@ -52,7 +52,7 @@ export class PieChartComponent {
     },
     plugins: {
       legend: {
-        position: 'right',
+        position: 'bottom',
       },
       /*outlabels: {
         backgroundColor: null,
@@ -74,5 +74,5 @@ export class PieChartComponent {
     
   };
   
-  public pieChartLegend = false;
+  public pieChartLegend = true;
 }
