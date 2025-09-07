@@ -5,15 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { LabelAndTextComponent } from './label-and-text/label-and-text.component';
-import { HeaderTextComponent } from './header-text/header-text.component';
-import { LineChartComponent } from './line-chart/line-chart.component';
-import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { DetailsComponent } from './pages/details/details.component';
+import { LabelAndTextComponent } from './core/components/label-and-text/label-and-text.component';
+import { HeaderTextComponent } from './core/components/header-text/header-text.component';
+import { LineChartComponent } from './core/components/line-chart/line-chart.component';
+import { PieChartComponent } from './core/components/pie-chart/pie-chart.component';
+//import "chartjs-plugin-piechart-outlabels";
 //import { CategoryScale, Chart } from "chart.js";
 //Chart.register(CategoryScale);
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent, LabelAndTextComponent, HeaderTextComponent ],
+  declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailsComponent, LabelAndTextComponent, HeaderTextComponent ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, LineChartComponent, PieChartComponent],
   providers: [],
   bootstrap: [AppComponent],

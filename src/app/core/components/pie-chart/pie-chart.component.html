@@ -1,8 +1,10 @@
 <div style="display: block;">
-  <canvas baseChart width="800" height="400"
+  <canvas baseChart width="800" height="400" (click)="chartClick()" (mousemove)="chartMouseMove()"
     [type]="'pie'"
     [data]="pieChartData"
     [options]="pieChartOptions"
     [legend]="pieChartLegend">
   </canvas>
 </div>
+
+

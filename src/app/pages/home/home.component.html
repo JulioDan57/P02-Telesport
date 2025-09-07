@@ -2,18 +2,19 @@
 <hr />
 <p>{{ (olympics$ | async)?.length }} data loaded</p>
 
+<p>id0: {{id0}} </p>
+<p>id1: {{id1}} </p>
+<p>city0: {{city0}} </p>
 
-
-<div><app-header-text></app-header-text></div>
+<div><app-header-text text="Medals per Country"></app-header-text></div>
 <div style="display: flex; align-items: center;
   justify-content: center;">
-<div><app-label-and-text></app-label-and-text></div>
-<div><app-label-and-text></app-label-and-text></div>
-<div><app-label-and-text></app-label-and-text></div>
+<div><app-label-and-text label="Number of JOs" text= {{numberOfJOs.toString()}}></app-label-and-text></div>
+<div><app-label-and-text label="Number of countries" text= {{numberOfCountries.toString()}}></app-label-and-text></div>
 </div>
-<app-pie-chart></app-pie-chart>
-
+<app-pie-chart [labels]=olympicCountries [data]=medalsPerCountry (chartClicked)="showClickedCountryData($event)" (chartMouseMoved)="sliceIndexMouseOvered=$event" ></app-pie-chart>
 <br/>
-<div><app-header-text></app-header-text></div>
 
-<app-line-chart></app-line-chart>
+
+Slice Mouse Overed : {{olympicCountries[sliceIndexMouseOvered]}}
+<p>Click count {{count}}</p>

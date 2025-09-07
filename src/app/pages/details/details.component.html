@@ -1,0 +1,29 @@
+<div><app-header-text></app-header-text></div>
+<div style="display: flex; align-items: center;
+  justify-content: center;">
+<div><app-label-and-text label="Numer of JOs" text="10"></app-label-and-text></div>
+<div><app-label-and-text [numericValue]=5>[loadNumericValue] </app-label-and-text></div>
+<div><app-label-and-text></app-label-and-text></div>
+</div>
+<app-line-chart></app-line-chart>
+
+<br/>
+<br/>
+<div class="center">
+  <input type="button" value="Go back" onclick="history.back()">
+  <!--<a routerLink="">Go back</a>-->
+</div>
+
+
+<div class="container">
+  <input #name type="text" class="form-control mt-2" placeholder="Name">
+  <br/>
+  <input #role type="text" class="form-control mt-2" placeholder="Role">
+  <br/>
+  <button (click)="createCountryDetails(name.value, role.value)"> Create Country</button>
+</div>
+<div class="container">
+  <ul>
+    <li *ngFor="let country of countries">ID: {{country.id}} | Name: {{country.name}} | Role: {{country.role}}</li>
+  </ul>
+</div>
