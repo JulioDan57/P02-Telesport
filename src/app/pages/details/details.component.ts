@@ -14,40 +14,25 @@ import { CommonModule, LowerCasePipe } from '@angular/common';
 
 
 export class DetailsComponent implements OnInit {
-    public olympics$!: Observable<Olympic[]>;//= of ([]);  
-    public olympicData!: Olympic[];
-    public dataPerCountry:DataPerCountry[]=[];
-    public selectedCoutryData: DataPerCountry = {country:"B",
-                                numberOfEntries:0,
-                                totalNumberOfMedals:1,
-                                totalNumberOfAthletes:2,
-                                years:[2001, 2002, 2003, 2004],
-                                medalsPerYear: [45, 50, 60, 70]};
-    public isAValidCountry=false;  
+  consoleIsEnabled:boolean=true;
+  public olympics$!: Observable<Olympic[]>; 
+  public olympicData!: Olympic[];
+  public dataPerCountry:DataPerCountry[]=[];
+  public selectedCoutryData: DataPerCountry = {country:"None",
+                              numberOfEntries:0,
+                              totalNumberOfMedals:0,
+                              totalNumberOfAthletes:0,
+                              years:[2001, 2002],
+                              medalsPerYear: [45, 50]};
+  public isAValidCountry=false;  
 
   public lowerCasePipe = inject(LowerCasePipe);
   toLowerCase(value: string): string {
     return this.lowerCasePipe.transform(value);
   }
-                                
-                                /* 
-  countries:Array<any>=[];
-  id: number=0;
-  createCountryDetails(name: string, role: string):void
-  {
-    const country={
-      id:this.id++,
-      name,
-      role,
-    };
-    this.countries.push(country);
-          console.log(country);
-  }
-*/
+  
   private route=inject(ActivatedRoute);
 
-
-  //countryId=signal<string | undefined>(undefined);
   countryId=signal<string>("");
 
   constructor(private olympicService: OlympicService) {}
@@ -56,30 +41,24 @@ export class DetailsComponent implements OnInit {
     const params=this.route.snapshot.params;
     this.countryId.set(params['id']? params['id'] :"");
     this.olympics$ = this.olympicService.getOlympics();
-    
     let nameToSearch=this.countryId().toString();
     
-    /*this.olympics$.subscribe({
-    next(someRandomData) { console.log(someRandomData); },
-    complete() { console.log('Finished sequence'); }});*/
     this.olympics$.subscribe((data:Olympic[])=> {
-       //this.someRandomData=data;
-       this.olympicData=data;
-       if (data !=null)
-       {
-        console.log(this.olympicData);   
+      this.olympicData=data;
+      if (data !=null)
+      {
+        if (this.consoleIsEnabled)
+        {
+          console.log("Number of olympic countries into the json file : " + this.olympicData.length);   
+          console.log("Country for search : " + this.countryId());
+        }
         this.isAValidCountry=this.loadDataForCountry(nameToSearch);
-        console.log(this.countryId());
-       }
-      });    
-
+      }
+    });    
   }
 
-
-
-loadDataForCountry(countryName:string):boolean
-{
-    let countries:string[]=[];
+  loadDataForCountry(countryName:string):boolean
+  {
     let jOYears:number[]=[];
     let accumMedals=0;
     let accumAthletes=0;
@@ -94,19 +73,15 @@ loadDataForCountry(countryName:string):boolean
       return isFound;
     }
 
-    console.log("nalme for search :"+countryName);
     if (this.olympicData.length)
     {
-      //this.dataPerCountry=new Array(this.olympicData.length);
       for(let i=0; i<this.olympicData.length; i++)
       {
         if(lowerCaseName===this.toLowerCase(this.olympicData[i].country))
         {
-          isFound=true;
           numberOfParticipations=this.olympicData[i].participations.length;
           years=new Array(numberOfParticipations);
           medalsPerYear=new Array(numberOfParticipations);
-
           accumMedals=0;
           accumAthletes=0;
           for(let j=0; j<numberOfParticipations; j++)
@@ -127,29 +102,36 @@ loadDataForCountry(countryName:string):boolean
             years[j]=this.olympicData[i].participations[j].year;
             medalsPerYear[j]=this.olympicData[i].participations[j].medalsCount;
           }
-          console.log(years);
-          console.log(medalsPerYear);
+
           let basicDataPerCountry={country:this.olympicData[i].country,
                                   numberOfEntries:numberOfParticipations,
                                   totalNumberOfMedals:accumMedals,
                                   totalNumberOfAthletes:accumAthletes,
                                   years:years,
                                   medalsPerYear:medalsPerYear};                                
-          console.log(basicDataPerCountry);
+          
           this.selectedCoutryData=basicDataPerCountry;
+          isFound=true;
           i=this.olympicData.length;
         }
       }
-      console.log("found country Name: "+ this.selectedCoutryData.country);
-      console.log("found country Entries: "+ this.selectedCoutryData.numberOfEntries);
-      console.log("found country Medals: "+ this.selectedCoutryData.totalNumberOfMedals);
-      console.log("found country Athletes: "+ this.selectedCoutryData.totalNumberOfAthletes);
-      console.log("found country Years: "+ this.selectedCoutryData.years);
-      console.log("found country Medals per year: "+ this.selectedCoutryData.medalsPerYear);
-
     }
-    return isFound;
+    if (this.consoleIsEnabled)
+    {
+      if (isFound){
+        console.log("Country found");
+        console.log("found country Name: "+ this.selectedCoutryData.country);
+        console.log("found country Entries: "+ this.selectedCoutryData.numberOfEntries);
+        console.log("found country Medals: "+ this.selectedCoutryData.totalNumberOfMedals);
+        console.log("found country Athletes: "+ this.selectedCoutryData.totalNumberOfAthletes);
+        console.log("found country Years: "+ this.selectedCoutryData.years);
+        console.log("found country Medals per year: "+ this.selectedCoutryData.medalsPerYear);
+      }else{
+        console.log("found not found");
+      }
+    }
 
+    return isFound;
   }
   
 

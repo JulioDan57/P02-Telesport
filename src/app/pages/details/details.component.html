@@ -1,37 +1,36 @@
 @if (countryId()){
-
   @if (isAValidCountry)
   {
-<p>Country Id {{countryId()}}</p>
-<div><app-header-text text={{[selectedCoutryData.country]}}></app-header-text></div>
-<div style="display: flex; align-items: center;
-  justify-content: center;">
-<div><app-label-and-text label="Numer of JOs" text={{[selectedCoutryData.numberOfEntries]}}></app-label-and-text></div>
-<div><app-label-and-text label="Total numer of medals" text={{[selectedCoutryData.totalNumberOfMedals]}}> </app-label-and-text></div>
-<div><app-label-and-text label="Total numer of athletes" text={{[selectedCoutryData.totalNumberOfAthletes]}}></app-label-and-text></div>
-</div>
-<app-line-chart [labels]=selectedCoutryData.years [data]=selectedCoutryData.medalsPerYear></app-line-chart>
+    <div><app-header-text text={{[selectedCoutryData.country]}}></app-header-text></div>
+    <div style="display: flex; align-items: center; justify-content: center;">
+      <div><app-label-and-text label="Numer of JOs" text={{[selectedCoutryData.numberOfEntries]}}></app-label-and-text></div>
+      <div><app-label-and-text label="Total numer of medals" text={{[selectedCoutryData.totalNumberOfMedals]}}> </app-label-and-text></div>
+      <div><app-label-and-text label="Total numer of athletes" text={{[selectedCoutryData.totalNumberOfAthletes]}}></app-label-and-text></div>
+    </div>
+    <app-line-chart [labels]=selectedCoutryData.years [data]=selectedCoutryData.medalsPerYear></app-line-chart>
 
-<br/>
-<br/>
-<div class="center">
-  <input type="button" value="Go back" onclick="history.back()">
-  <!--<a routerLink="">Go back</a>-->
-</div>  
-}@else{
-  <p>There is no olympic data for {{countryId()}} </p>
-  <div class="center">
-  <input type="button" value="Go back" onclick="history.back()">
-  <!--<a routerLink="">Go back</a>-->
-</div>  
-}
+    <br/>
+    <br/>
+    <div class="center">
+      <!--<input type="button" value="Go back" onclick="history.back()">-->
+      <button routerLink=''>Go home</button>
+    </div>  
+  }@else{
+    <p>There is no olympic data for {{countryId()}} </p>
+      <div class="center">
+      <!--<input type="button" value="Go back" onclick="history.back()">-->
+      <button routerLink=''>Go home</button>      
+      <!--<a routerLink="">Go back</a>-->
+    </div>  
+  }
 
 }@else{
   <p>Bad country</p>
   <div class="center">
-  <input type="button" value="Go back" onclick="history.back()">
-  <!--<a routerLink="">Go back</a>-->
-</div>  
+    <!--<input type="button" value="Go back" onclick="history.back()">-->
+    <button routerLink=''>Go home</button>    
+    <!--<a routerLink="">Go back</a>-->
+  </div>  
 }
 
 

@@ -11,9 +11,6 @@ import { HeaderTextComponent } from './core/components/header-text/header-text.c
 import { LineChartComponent } from './core/components/line-chart/line-chart.component';
 import { PieChartComponent } from './core/components/pie-chart/pie-chart.component';
 import { CommonModule, LowerCasePipe } from '@angular/common';
-//import "chartjs-plugin-piechart-outlabels";
-//import { CategoryScale, Chart } from "chart.js";
-//Chart.register(CategoryScale);
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NotFoundComponent, DetailsComponent, LabelAndTextComponent, HeaderTextComponent],
