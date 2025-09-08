@@ -1,29 +1,37 @@
-<div><app-header-text></app-header-text></div>
+@if (countryId()){
+
+  @if (isAValidCountry)
+  {
+<p>Country Id {{countryId()}}</p>
+<div><app-header-text text={{[selectedCoutryData.country]}}></app-header-text></div>
 <div style="display: flex; align-items: center;
   justify-content: center;">
-<div><app-label-and-text label="Numer of JOs" text="10"></app-label-and-text></div>
-<div><app-label-and-text [numericValue]=5>[loadNumericValue] </app-label-and-text></div>
-<div><app-label-and-text></app-label-and-text></div>
+<div><app-label-and-text label="Numer of JOs" text={{[selectedCoutryData.numberOfEntries]}}></app-label-and-text></div>
+<div><app-label-and-text label="Total numer of medals" text={{[selectedCoutryData.totalNumberOfMedals]}}> </app-label-and-text></div>
+<div><app-label-and-text label="Total numer of athletes" text={{[selectedCoutryData.totalNumberOfAthletes]}}></app-label-and-text></div>
 </div>
-<app-line-chart></app-line-chart>
+<app-line-chart [labels]=selectedCoutryData.years [data]=selectedCoutryData.medalsPerYear></app-line-chart>
 
 <br/>
 <br/>
 <div class="center">
   <input type="button" value="Go back" onclick="history.back()">
   <!--<a routerLink="">Go back</a>-->
-</div>
+</div>  
+}@else{
+  <p>There is no olympic data for {{countryId()}} </p>
+  <div class="center">
+  <input type="button" value="Go back" onclick="history.back()">
+  <!--<a routerLink="">Go back</a>-->
+</div>  
+}
+
+}@else{
+  <p>Bad country</p>
+  <div class="center">
+  <input type="button" value="Go back" onclick="history.back()">
+  <!--<a routerLink="">Go back</a>-->
+</div>  
+}
 
 
-<div class="container">
-  <input #name type="text" class="form-control mt-2" placeholder="Name">
-  <br/>
-  <input #role type="text" class="form-control mt-2" placeholder="Role">
-  <br/>
-  <button (click)="createCountryDetails(name.value, role.value)"> Create Country</button>
-</div>
-<div class="container">
-  <ul>
-    <li *ngFor="let country of countries">ID: {{country.id}} | Name: {{country.name}} | Role: {{country.role}}</li>
-  </ul>
-</div>

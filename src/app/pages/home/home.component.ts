@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject  } from '@angular/core';
 import { empty, Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 //import  'src/app/core/models/Olympic';
 import { Olympic, DataPerCountry } from 'src/app/core/models/Olympic';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -32,6 +33,11 @@ export class HomeComponent implements OnInit {
   public count:number=0;
   public sliceIndexSelected=-1;
   public sliceIndexMouseOvered=-1;
+
+
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  id = 0;
 
   constructor(private olympicService: OlympicService) {}
 
@@ -93,6 +99,9 @@ export class HomeComponent implements OnInit {
       }       */
     });
 
+   //     this.route.params.subscribe(params => {
+   //    this.id = +params.id; // + permet de convertir la chaîne en nombre
+   // });
 
   }
   countJOsAndCountries()
@@ -184,7 +193,10 @@ export class HomeComponent implements OnInit {
       console.log("first country Medals: "+ this.dataPerCountry[countryIndex].totalNumberOfMedals);
       console.log("first country Athletes: "+ this.dataPerCountry[countryIndex].totalNumberOfAthletes);
       console.log("first country Years: "+ this.dataPerCountry[countryIndex].years);
-      console.log("first country Medals per year: "+ this.dataPerCountry[countryIndex].medalsPerYear);      
+      console.log("first country Medals per year: "+ this.dataPerCountry[countryIndex].medalsPerYear);   
+      
+      
+      this.router.navigate(['/details'+'/'+  this.dataPerCountry[countryIndex].country  ]);
     }
   }
 }

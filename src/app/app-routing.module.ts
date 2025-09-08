@@ -8,13 +8,17 @@ import { DetailsComponent } from './pages/details/details.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },  
+  {
+    path: 'home',
     component: HomeComponent,
   },
   {
     //path: 'details/:name', 
-    path: 'details', 
+    path: 'details/:id', 
     component: DetailsComponent,
-    pathMatch:'full'
   },  
   {
     path: '**',
