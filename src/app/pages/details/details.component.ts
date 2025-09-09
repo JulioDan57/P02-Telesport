@@ -14,7 +14,7 @@ import { CommonModule, LowerCasePipe } from '@angular/common';
 
 
 export class DetailsComponent implements OnInit {
-  consoleIsEnabled:boolean=true;
+  consoleIsEnabled:boolean=false;
   public olympics$!: Observable<Olympic[]>; 
   public olympicData!: Olympic[];
   public dataPerCountry:DataPerCountry[]=[];

@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     standalone: false
 })
 export class HomeComponent implements OnInit {
-  consoleIsEnabled:boolean=true;
+  consoleIsEnabled:boolean=false;
   public olympics$!: Observable<Olympic[]>;
   public olympicData!: Olympic[];
   public olympicCountries:string[]=[];;
