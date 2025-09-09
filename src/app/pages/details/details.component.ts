@@ -51,15 +51,17 @@ export class DetailsComponent implements OnInit {
         {
           console.log("Number of olympic countries into the json file : " + this.olympicData.length);   
           console.log("Country for search : " + this.countryId());
+          //let test=this.data;
+          //console.log("Test map : "+test.length + " | "  + test[0].name +" | "+ test[0].value);
         }
         this.isAValidCountry=this.loadDataForCountry(nameToSearch);
+       
       }
     });    
   }
 
   loadDataForCountry(countryName:string):boolean
   {
-    let jOYears:number[]=[];
     let accumMedals=0;
     let accumAthletes=0;
     let numberOfParticipations=0;
@@ -88,17 +90,6 @@ export class DetailsComponent implements OnInit {
           {
             accumMedals+= this.olympicData[i].participations[j].medalsCount;
             accumAthletes+= this.olympicData[i].participations[j].athleteCount;
-            if (jOYears.length>0)
-            {
-              if (jOYears.indexOf(this.olympicData[i].participations[j].year)===-1)
-              {
-                jOYears.push(this.olympicData[i].participations[j].year);  
-              }
-            }
-            else
-            {
-              jOYears.push(this.olympicData[i].participations[j].year);
-            }
             years[j]=this.olympicData[i].participations[j].year;
             medalsPerYear[j]=this.olympicData[i].participations[j].medalsCount;
           }
@@ -134,5 +125,14 @@ export class DetailsComponent implements OnInit {
     return isFound;
   }
   
+  /*
+  get data(): {"name": string, "value": number}[] {
+    return this.olympicData.map(olympic => {
+      var totalMedals = 0;
+      // On additionne le nombre de médailles de chaque participation pour obtenir le nombre total de médailles pour un olympic.
+      olympic.participations.forEach(participation => totalMedals += participation.medalsCount);
+      return {"name": olympic.country, "value": totalMedals};
+    });
+  }*/
 
 }
