@@ -17,6 +17,7 @@ export class LineChartComponent implements OnInit, OnChanges{
   consoleIsEnabled:boolean=true;
   @Input() labels:number[]=[];
   @Input() data:number[] =[];  
+  @Input() xAxisLabel:string=""; //Dates
   public lineChartData!: ChartConfiguration<'line'>['data']; 
   public lineChartOptions!: ChartOptions<'line'>;
 
@@ -61,7 +62,7 @@ export class LineChartComponent implements OnInit, OnChanges{
           display: true,
           title: {
             display: true,
-            text: 'Dates',
+            text: this.xAxisLabel,//'Dates',
             color: 'gray',
             font: {
               family: 'Calibri',

@@ -7,7 +7,7 @@
       <div><app-label-and-text label="Total numer of medals" text={{[selectedCoutryData.totalNumberOfMedals]}}> </app-label-and-text></div>
       <div><app-label-and-text label="Total numer of athletes" text={{[selectedCoutryData.totalNumberOfAthletes]}}></app-label-and-text></div>
     </div>
-    <app-line-chart [labels]=selectedCoutryData.years [data]=selectedCoutryData.medalsPerYear></app-line-chart>
+    <app-line-chart xAxisLabel="Dates" [labels]=selectedCoutryData.years [data]=selectedCoutryData.medalsPerYear></app-line-chart>
 
     <br/>
     <br/>
