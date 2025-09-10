@@ -17,7 +17,6 @@ export class DetailsComponent implements OnInit {
   consoleIsEnabled:boolean=false;
   public olympics$!: Observable<Olympic[]>; 
   public olympicData!: Olympic[];
-  public dataPerCountry:DataPerCountry[]=[];
   public selectedCoutryData: DataPerCountry = {country:"None",
                               numberOfEntries:0,
                               totalNumberOfMedals:0,
@@ -51,16 +50,68 @@ export class DetailsComponent implements OnInit {
         {
           console.log("Number of olympic countries into the json file : " + this.olympicData.length);   
           console.log("Country for search : " + this.countryId());
-          //let test=this.data;
-          //console.log("Test map : "+test.length + " | "  + test[0].name +" | "+ test[0].value);
         }
-        this.isAValidCountry=this.loadDataForCountry(nameToSearch);
+        this.isAValidCountry=this.generateDataForCountry(nameToSearch);
        
       }
-    });    
+    });  
+
   }
 
-  loadDataForCountry(countryName:string):boolean
+  
+  // load all data for the line chart, the title and the informations labels, by using find and forEach. 
+  // This function uses the country name as search parameter. 
+  generateDataForCountry(countryName:string):boolean {
+    let medalsPerYear:number[]=[];
+    let years:number[]=[];
+    let accumMedals=0;
+    let accumAthletes=0;      
+    let numberOfParticipations=0;
+    let lowerCaseName=this.toLowerCase(countryName);
+    let isFound=false;
+
+    const olympicCountryData = this.olympicData.find(olympic=> lowerCaseName===this.toLowerCase(olympic.country));
+
+    if (olympicCountryData!= undefined)
+    {
+      numberOfParticipations=olympicCountryData.participations.length;
+        olympicCountryData.participations.forEach(participation => {
+          accumMedals += participation.medalsCount;
+          accumAthletes += participation.athleteCount;
+          medalsPerYear.push(participation.medalsCount);
+          years.push(participation.year);            
+        });
+        let basicDataPerCountry={country:countryName,
+                                numberOfEntries:numberOfParticipations,
+                                totalNumberOfMedals:accumMedals,
+                                totalNumberOfAthletes:accumAthletes,
+                                years:years,
+                                medalsPerYear:medalsPerYear};         
+        this.selectedCoutryData=basicDataPerCountry;        
+        isFound=true;
+    }
+
+    if (this.consoleIsEnabled)
+    {
+      if (isFound){
+        console.log("Country found");
+        console.log("found country Name: "+ this.selectedCoutryData.country);
+        console.log("found country Entries: "+ this.selectedCoutryData.numberOfEntries);
+        console.log("found country Medals: "+ this.selectedCoutryData.totalNumberOfMedals);
+        console.log("found country Athletes: "+ this.selectedCoutryData.totalNumberOfAthletes);
+        console.log("found country Years: "+ this.selectedCoutryData.years);
+        console.log("found country Medals per year: "+ this.selectedCoutryData.medalsPerYear);
+      }else{
+        console.log("found not found");
+      }
+    }
+
+    return isFound;
+  }      
+
+  // load all data for the line chart, the title and the informations labels, by using classic for. 
+  // This function uses the country name as search parameter. 
+    loadDataForCountry(countryName:string):boolean
   {
     let accumMedals=0;
     let accumAthletes=0;
@@ -125,14 +176,4 @@ export class DetailsComponent implements OnInit {
     return isFound;
   }
   
-  /*
-  get data(): {"name": string, "value": number}[] {
-    return this.olympicData.map(olympic => {
-      var totalMedals = 0;
-      // On additionne le nombre de médailles de chaque participation pour obtenir le nombre total de médailles pour un olympic.
-      olympic.participations.forEach(participation => totalMedals += participation.medalsCount);
-      return {"name": olympic.country, "value": totalMedals};
-    });
-  }*/
-
 }
