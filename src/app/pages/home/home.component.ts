@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     standalone: false
 })
 export class HomeComponent implements OnInit {
-  consoleIsEnabled:boolean=false;
+  consoleIsEnabled:boolean=true;
   public olympics$!: Observable<Olympic[]>;
   public olympicData!: Olympic[];
   public olympicCountries:string[]=[];;
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
     }
     else
     {
-      console.log("Bad country index");
+      console.log("Bad country index :"+ countryIndex);
     }
   }
 

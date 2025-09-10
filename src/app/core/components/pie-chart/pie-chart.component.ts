@@ -21,7 +21,6 @@ export class PieChartComponent implements OnInit, OnChanges{
   @Input() labels:string[]=[];
   @Input() data:number[] =[];
   @Output() chartClicked=new EventEmitter<number>();
-  @Output() chartMouseMoved=new EventEmitter<number>();
   sliceClickedIndex:number=-1;
   sliceMouseMovedIndex:number=-1;
   public pieChartData!: ChartConfiguration<'pie'>['data']; 
@@ -60,32 +59,9 @@ export class PieChartComponent implements OnInit, OnChanges{
     this.pieChartOptions= {
       responsive: true,
       aspectRatio: 2,
-      onHover:(event, elements, chart)=> {
-        if (event.type == 'mousemove'){
-          if (elements.length>0){
-            this.sliceMouseMovedIndex=elements[0].index;
-            if (this.consoleIsEnabled)
-            {          
-              console.log("Mouse pointer over slice index : "+elements[0].index+ " | Text :" + this.labels[elements[0].index]);
-            }
-          }
-          else
-          {
-            this.sliceMouseMovedIndex=-1;
-            if (this.consoleIsEnabled)
-            {          
-              console.log("Mouse pointer is out");
-            }
-          }                  
-        }
-        else
-        {
-          this.sliceMouseMovedIndex=-1;
-        }        
-      },
-
       onClick: (evt, activeEls, chart) => {
         if (activeEls.length>0){
+          this.sliceClickedIndex=activeEls[0].index;
           if (this.consoleIsEnabled)
           {
             console.log("Clicked index :" + activeEls[0].index + " | Label : " +this.labels[activeEls[0].index]);
@@ -93,11 +69,13 @@ export class PieChartComponent implements OnInit, OnChanges{
         }
         else
         {
+          this.sliceClickedIndex=-1;
           if (this.consoleIsEnabled)
           {          
             console.log("Clicked out");
           }
         }
+        this.chartClicked.emit(this.sliceClickedIndex);
       },
       plugins: {
         legend: {
@@ -112,14 +90,4 @@ export class PieChartComponent implements OnInit, OnChanges{
       console.log("pie labels :"+this.labels);
     }
   }
-
-  chartClick(){
-    this.sliceClickedIndex=this.sliceMouseMovedIndex;
-    this.chartClicked.emit(this.sliceClickedIndex);
-  }
-
-  chartMouseMove(){
-    this.chartMouseMoved.emit(this.sliceMouseMovedIndex);
-  }
-
 }
