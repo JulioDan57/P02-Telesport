@@ -6,7 +6,6 @@ import { Chart, registerables } from "chart.js";
 import { FormsModule } from '@angular/forms';
 Chart.register(...registerables );
 
-
 @Component({
   selector: 'app-pie-chart',
   standalone: true,
@@ -22,7 +21,6 @@ export class PieChartComponent implements OnInit, OnChanges{
   @Input() data:number[] =[];
   @Output() chartClicked=new EventEmitter<number>();
   sliceClickedIndex:number=-1;
-  sliceMouseMovedIndex:number=-1;
   public pieChartData!: ChartConfiguration<'pie'>['data']; 
   public pieChartOptions!: ChartOptions<'pie'>;
   public pieChartLegend = true;
@@ -58,6 +56,7 @@ export class PieChartComponent implements OnInit, OnChanges{
 
     this.pieChartOptions= {
       responsive: true,
+      maintainAspectRatio: false,
       aspectRatio: 2,
       onClick: (evt, activeEls, chart) => {
         if (activeEls.length>0){

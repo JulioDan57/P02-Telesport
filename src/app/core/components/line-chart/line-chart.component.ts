@@ -1,5 +1,6 @@
 import { Component,Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DataForLineChart } from '../../models/Chart.model';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 import { Chart, registerables } from "chart.js";
@@ -57,6 +58,7 @@ export class LineChartComponent implements OnInit, OnChanges{
 
     this.lineChartOptions= {
       responsive: true,
+      maintainAspectRatio: false,
       aspectRatio: 2,
       scales:{
         x:{

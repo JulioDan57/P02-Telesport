@@ -3,7 +3,8 @@
   <div><app-label-and-text label="Number of JOs" text= {{numberOfJOs.toString()}}></app-label-and-text></div>
   <div><app-label-and-text label="Number of countries" text= {{numberOfCountries.toString()}}></app-label-and-text></div>
 </div>
-<app-pie-chart [labels]=olympicCountries [data]=medalsPerCountry 
+
+<app-pie-chart [labels]=dataForCountriesPieChart.xData [data]=dataForCountriesPieChart.yData 
                 (chartClicked)="showClickedCountryData($event)"></app-pie-chart>
 <br/>
 

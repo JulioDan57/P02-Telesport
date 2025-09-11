@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Olympic } from 'src/app/core/models/Olympic';
+import { LowerCasePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -31,4 +32,20 @@ export class OlympicService {
     return this.olympics$.asObservable();
   }
 
+  // On crée une méthode qui va nous permettre de trier les Olympic par pays.
+  // Elle prend en paramètre un string, qui sera le pays.
+  // Elle renvoie un observable d'Olympic, ou undefined si aucun Olympic n'est trouvé.
+  getOlympicByCountry(country: string): Observable<Olympic | undefined> {
+    return this.olympics$.pipe(
+      map(
+        olympics => olympics.find(olympic => this.toLowerCase(olympic.country) === this.toLowerCase(country))
+      )
+    );
+  }
+  
+  private lowerCasePipe = inject(LowerCasePipe);
+    toLowerCase(value: string): string {
+    return this.lowerCasePipe.transform(value);
+  }
+  
 }

@@ -25,4 +25,9 @@ export interface DataPerCountry
     medalsPerYear:number[];
 }
 
+export interface DataForCountriesPieChart
+{
+  xData:string[];
+  yData:number[];
+}
 

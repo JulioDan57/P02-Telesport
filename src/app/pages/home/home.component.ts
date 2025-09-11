@@ -1,7 +1,7 @@
 import { Component, OnInit, inject  } from '@angular/core';
 import { empty, Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { Olympic, DataPerCountry } from 'src/app/core/models/Olympic';
+import { Olympic, DataPerCountry, DataForCountriesPieChart } from 'src/app/core/models/Olympic';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -10,17 +10,15 @@ import { ActivatedRoute, Router } from '@angular/router';
     styleUrls: ['./home.component.scss'],
     standalone: false
 })
+
 export class HomeComponent implements OnInit {
   consoleIsEnabled:boolean=true;
   public olympics$!: Observable<Olympic[]>;
   public olympicData!: Olympic[];
-  public olympicCountries:string[]=[];;
-  public medalsPerCountry:number[]=[];
   public numberOfJOs:number=0;
   public numberOfCountries:number=0;
   public sliceIndexSelected=-1;
-  public sliceIndexMouseOvered=-1;
-
+  public dataForCountriesPieChart!:DataForCountriesPieChart;
   private router = inject(Router);
 
   constructor(private olympicService: OlympicService) {}
@@ -28,7 +26,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
     this.sliceIndexSelected=-1;
-    this.sliceIndexMouseOvered=-1;
     
     this.olympics$.subscribe((data:Olympic[])=> {
        this.olympicData=data;
@@ -38,7 +35,10 @@ export class HomeComponent implements OnInit {
         {
           console.log("Number of olympic countries into the json file : " + this.olympicData.length);   
         }
-        this.generateData();
+        //this.generateData();
+        this.dataForCountriesPieChart=this.getDataForCountriesPieChart();
+        this.numberOfJOs=this.getNumberOfJOs();
+        this.numberOfCountries=this.olympicData.length;
        }
     });
   }
@@ -49,9 +49,9 @@ export class HomeComponent implements OnInit {
     if (countryIndex!=-1)
     {
       if (this.consoleIsEnabled){
-        console.log("selected country : " + this.olympicCountries[countryIndex]);
+        console.log("selected country : " + this.dataForCountriesPieChart.xData[countryIndex]);
       }
-      this.router.navigate(['/details'+'/'+  this.olympicCountries[countryIndex]]);
+      this.router.navigate(['/details'+'/'+  this.dataForCountriesPieChart.xData[countryIndex]]);
     }
     else
     {
@@ -59,21 +59,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // load all data for pie chart (visualization and interaction), for title and for infomations labels
-  generateData() {
-    var jOYears: number[] = [];
-    this.olympicCountries= [];
-    this.medalsPerCountry= [];
-
-    this.olympicData.map(olympic => {
-      let totalMedals = 0;
-        // count medals per country.
-      olympic.participations.forEach(participation => totalMedals += participation.medalsCount);
-
-      this.olympicCountries.push(olympic.country);
-      this.medalsPerCountry.push(totalMedals);
+  getDataForCountriesPieChart():DataForCountriesPieChart{
+    var medalsPercountry:number[]=[];
+    var countries:string[]=[];
+    this.olympicData.forEach(olympic => {
+      const totalMedals= olympic.participations.reduce<number>((total, element)=>total+(element.medalsCount),0);
+      medalsPercountry.push(totalMedals);
+      countries.push(olympic.country);
     });
+    return {xData:countries, yData:medalsPercountry};
+  }
 
+  getNumberOfJOs():number{
+    var jOYears: number[] = [];    
     this.olympicData.forEach(olympic => {
       olympic.participations.forEach(participation => {
         // in case of year is not present add it.
@@ -82,8 +80,6 @@ export class HomeComponent implements OnInit {
         }
       })
     });
-
-    this.numberOfJOs=jOYears.length;
-    this.numberOfCountries=this.olympicData.length;
-  }  
+    return jOYears.length;
+  }
 }
