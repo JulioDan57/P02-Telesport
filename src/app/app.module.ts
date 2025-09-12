@@ -6,10 +6,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { DetailsComponent } from './pages/details/details.component';
-import { LabelAndTextComponent } from './core/components/label-and-text/label-and-text.component';
-import { HeaderTextComponent } from './core/components/header-text/header-text.component';
-import { LineChartComponent} from './core/components/line-chart/line-chart.component';
-import { PieChartComponent } from './core/components/pie-chart/pie-chart.component';
+import { LabelAndTextComponent } from './components/label-and-text/label-and-text.component';
+import { HeaderTextComponent } from './components/header-text/header-text.component';
+import { LineChartComponent} from './components/line-chart/line-chart.component';
+import { PieChartComponent } from './components/pie-chart/pie-chart.component';
 import { CommonModule, LowerCasePipe } from '@angular/common';
 
 @NgModule({
