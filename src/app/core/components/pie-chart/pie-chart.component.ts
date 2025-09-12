@@ -16,9 +16,9 @@ Chart.register(...registerables );
 })
 
 export class PieChartComponent implements OnInit, OnChanges{
-  consoleIsEnabled:boolean=true;
+  consoleIsEnabled:boolean=false;
   @Input() dataForPieChart:DataForPieChart={labels:[],data:[]};  
-  @Output() chartClicked=new EventEmitter<number>();
+  @Output() chartClicked=new EventEmitter<number>(); 
   sliceClickedIndex:number=-1;
   public pieChartData!: ChartConfiguration<'pie'>['data']; 
   public pieChartOptions!: ChartOptions<'pie'>;
@@ -27,6 +27,7 @@ export class PieChartComponent implements OnInit, OnChanges{
   ngOnInit(){
   }  
   
+  // called when "dataForPieChart" changes
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataForPieChart']) {
       this.pieChartCreation();
@@ -37,6 +38,7 @@ export class PieChartComponent implements OnInit, OnChanges{
     }
   }
 
+  // creation of the pie chart. "dataForPieChart" contains the labels and data parameters
   pieChartCreation(){
     this.pieChartData = {
       labels: this.dataForPieChart.labels,

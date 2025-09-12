@@ -8,9 +8,10 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 
 export class LabelAndTextComponent implements OnInit{
-  @Input() label: string = 'Number of entries';
-  @Input() text: string ='30';
-  @Input() numericValue: number=0;
+  // input label for LabelAndTextComponent
+  @Input() label: string = '';
+  // input text for LabelAndTextComponent
+  @Input() text: string ='';
 
   ngOnInit():void{
   }  

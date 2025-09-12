@@ -8,13 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 
 export class HeaderTextComponent implements OnInit{
-  @Input() text: string ='Name of the country';
-  backgroundColorRGB!:Array<number>;
-
-  ngOnInit():void{
-  }
+  // input text for HeaderTextComponent
+  @Input() text: string =''; 
   
-  public setText(newText:string){
-    this.text=newText;
+  ngOnInit():void{
   }
 }

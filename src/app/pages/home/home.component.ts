@@ -12,7 +12,7 @@ import { DataForPieChart } from 'src/app/core/models/Chart.model';
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
-  consoleIsEnabled:boolean=true;
+  consoleIsEnabled:boolean=false;
   public olympics$!: Observable<Olympic[]>;
   public olympicData!: Olympic[];
   public numberOfJOs:number=0;
@@ -40,13 +40,12 @@ export class HomeComponent implements OnInit, OnDestroy {
           console.log("Number of olympic countries into the json file : " + this.olympicData.length);   
           console.log("data[0] : " + this.dataForCountriesPieChart.data[0]);   
           console.log("dataForCountriesPieChart : " + this.dataForCountriesPieChart);   
-
         }        
        }
     });
   }
 
-  // destroy the subscritions to avoid memory leaks.
+  // destroy the subscrition to avoid memory leaks.
   ngOnDestroy(): void {
     this.olympicSub.unsubscribe();
   }
@@ -63,10 +62,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
     else
     {
-      console.log("Bad country index :"+ countryIndex);
+      if (this.consoleIsEnabled){
+        console.log("Bad country index :"+ countryIndex);
+      }
     }
   }
 
+  // get te data (labels and data) for the pie chart 
   getDataForCountriesPieChart():DataForPieChart{
     var medalsPercountry:number[]=[];
     var countries:string[]=[];
@@ -78,6 +80,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     return {labels:countries, data:medalsPercountry};
   }
 
+  // get the total of JOs 
   getNumberOfJOs():number{
     var jOYears: number[] = [];    
     this.olympicData.forEach(olympic => {

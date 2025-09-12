@@ -15,7 +15,7 @@ Chart.register(...registerables );
 })
 
 export class LineChartComponent implements OnInit, OnChanges{
-  consoleIsEnabled:boolean=true;
+  consoleIsEnabled:boolean=false;
   @Input() dataForLineChart:DataForLineChart ={labels:[],data:[],xAxisLabel:""};
   public lineChartData!: ChartConfiguration<'line'>['data']; 
   public lineChartOptions!: ChartOptions<'line'>;
@@ -23,6 +23,7 @@ export class LineChartComponent implements OnInit, OnChanges{
   ngOnInit(){
   }  
 
+   // called when "dataForLineChart" changes
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataForLineChart']) {
       this.lineChartCreation();
@@ -32,6 +33,8 @@ export class LineChartComponent implements OnInit, OnChanges{
       }
     }
   }
+
+  // creation of the pie chart. "dataForLineChart" contains the labels, data and x axis label parameters
   lineChartCreation(){
     this.lineChartData = {
       labels: this.dataForLineChart.labels,

@@ -41,41 +41,28 @@ export class DetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    //this.olympicService.getOlympicByCountry(this.countryId).subscribe(data =>this.olympicCountryData=data);
+    // get the Olympic object that correspond to the country name obtained before
+    this.olympicSub=this.olympicService.getOlympicByCountry(this.countryId).subscribe(data =>{
+      this.olympicCountryData=data;
+      if (this.olympicCountryData!=null){
 
-    this.olympics$ = this.olympicService.getOlympics();
-    this.olympicSub=this.olympics$.subscribe((data:Olympic[])=> {
-      this.olympicData=data;
-      if (data !=null)
-      {
-        if (this.consoleIsEnabled)
-        {
-          console.log("Number of olympic countries into the json file : " + this.olympicData.length);   
-          console.log("Country for search : " + this.countryId);
-        }
-        
-        this.selectedCoutryData=null;
-        this.olympicCountryData = this.olympicData.find(olympic=> this.toLowerCase(this.countryId)===this.toLowerCase(olympic.country));
-        if (this.olympicCountryData!=null){
-
-          this.selectedCoutryData={country:this.getCountryName(),
-                                   numberOfEntries:this.olympicCountryData.participations.length,
-                                   totalNumberOfMedals:this.getTotalMedals(),
-                                   totalNumberOfAthletes:this.getTotalAthletes()};
-          this.dataForCountryLineChart=this.getDataForCountryLineChart();
-          this.dataForCountryLineChart.xAxisLabel="Dates";
-        }
+        this.selectedCoutryData={country:this.getCountryName(),
+                                  numberOfEntries:this.olympicCountryData.participations.length,
+                                  totalNumberOfMedals:this.getTotalMedals(),
+                                  totalNumberOfAthletes:this.getTotalAthletes()};
+        this.dataForCountryLineChart=this.getDataForCountryLineChart();
+        this.dataForCountryLineChart.xAxisLabel="Dates";
       }
-    });  
-
+    });
   }
+
     // destroy the subscritions to avoid memory leaks.
   ngOnDestroy(): void {
     this.olympicSub.unsubscribe();
     this.countrySub.unsubscribe();
   }
 
-
+  // get te data (labels and data) for the line chart 
   getDataForCountryLineChart():DataForLineChart{
     var medalsPerYear:number[]=[];
     var years:number[]=[];
@@ -88,7 +75,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     return {labels:years, data:medalsPerYear};
   }
 
-
+  // get the country name from the olympic object
   getCountryName():string{
     let name="";
     if (this.olympicCountryData!=undefined){
@@ -97,6 +84,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     return name;
   }
 
+  // get the total of medals from the olympic object
   getTotalMedals():number
   {
     let totalMedals=0;
@@ -106,6 +94,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     return totalMedals;
   }
 
+  // get the total of athletes from the olympic object
   getTotalAthletes():number
   {
     let totalAthletes =0;
@@ -115,25 +104,4 @@ export class DetailsComponent implements OnInit, OnDestroy {
     return totalAthletes;
   }
   
-  getYearAsArray():number[]
-  {
-    let years:number[]=[];
-    if (this.olympicCountryData!=undefined){
-      this.olympicCountryData.participations.forEach(participation => {
-        years.push(participation.year);            
-      });      
-    }
-    return years;
-  }
-
-  getMedalsPerYearAsArray():number[]{
-    let medalsPerYear:number[]=[];
-    if (this.olympicCountryData!=undefined){
-      this.olympicCountryData.participations.forEach(participation => {
-        medalsPerYear.push(participation.medalsCount);            
-      });      
-    }
-    return medalsPerYear;   
-  }
-
 }

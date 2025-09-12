@@ -32,9 +32,7 @@ export class OlympicService {
     return this.olympics$.asObservable();
   }
 
-  // On crée une méthode qui va nous permettre de trier les Olympic par pays.
-  // Elle prend en paramètre un string, qui sera le pays.
-  // Elle renvoie un observable d'Olympic, ou undefined si aucun Olympic n'est trouvé.
+  // Search by using the country name and retune a Olympic observable
   getOlympicByCountry(country: string): Observable<Olympic | undefined> {
     return this.olympics$.pipe(
       map(
@@ -43,6 +41,7 @@ export class OlympicService {
     );
   }
   
+  // return the input string value converted to lower case
   private lowerCasePipe = inject(LowerCasePipe);
     toLowerCase(value: string): string {
     return this.lowerCasePipe.transform(value);
