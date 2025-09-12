@@ -4,7 +4,7 @@
   <div><app-label-and-text label="Number of countries" text= {{numberOfCountries.toString()}}></app-label-and-text></div>
 </div>
 
-<app-pie-chart [labels]=dataForCountriesPieChart.xData [data]=dataForCountriesPieChart.yData 
+<app-pie-chart [dataForPieChart]=dataForCountriesPieChart
                 (chartClicked)="showClickedCountryData($event)"></app-pie-chart>
 <br/>
 

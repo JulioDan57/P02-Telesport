@@ -21,13 +21,13 @@ export interface DataPerCountry
     numberOfEntries:number;
     totalNumberOfMedals:number;
     totalNumberOfAthletes:number;
-    years:number[];
-    medalsPerYear:number[];
+    //years:number[];
+    //medalsPerYear:number[];
 }
 
-export interface DataForCountriesPieChart
+/*export interface DataForCountriesPieChart
 {
   xData:string[];
   yData:number[];
-}
+}*/
 

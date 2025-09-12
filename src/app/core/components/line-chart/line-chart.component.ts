@@ -16,37 +16,29 @@ Chart.register(...registerables );
 
 export class LineChartComponent implements OnInit, OnChanges{
   consoleIsEnabled:boolean=true;
-  @Input() labels:number[]=[];
-  @Input() data:number[] =[];  
-  @Input() xAxisLabel:string=""; //Dates
+  @Input() dataForLineChart:DataForLineChart ={labels:[],data:[],xAxisLabel:""};
   public lineChartData!: ChartConfiguration<'line'>['data']; 
   public lineChartOptions!: ChartOptions<'line'>;
 
-  public loadData(){
-    this.lineChartData.labels=this.labels;
-    this.lineChartData.datasets[0].data= this.data;
-  }
-
   ngOnInit(){
-    //this.lineChartCreation();
   }  
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data'] && changes['labels']) {
+    if (changes['dataForLineChart']) {
       this.lineChartCreation();
       if (this.consoleIsEnabled)
       {      
-        console.log('Value changed from ', changes['data'].previousValue, ' to ', changes['data'].currentValue);
+        console.log('Value changed from ', changes['dataForLineChart'].previousValue, ' to ', changes['dataForLineChart'].currentValue);
       }
     }
   }
   lineChartCreation(){
     this.lineChartData = {
-      labels: this.labels,
+      labels: this.dataForLineChart.labels,
   
       datasets: [
         {
-          data:this.data,
+          data:this.dataForLineChart.data,
           label: 'Medals',
           fill: false,
           tension: 0.0,
@@ -65,7 +57,7 @@ export class LineChartComponent implements OnInit, OnChanges{
           display: true,
           title: {
             display: true,
-            text: this.xAxisLabel,//'Dates',
+            text: this.dataForLineChart.xAxisLabel,
             color: 'gray',
             font: {
               family: 'Calibri',

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitter, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DataForPieChart } from '../../models/Chart.model';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
 import { Chart, registerables } from "chart.js";
@@ -16,39 +17,32 @@ Chart.register(...registerables );
 
 export class PieChartComponent implements OnInit, OnChanges{
   consoleIsEnabled:boolean=true;
-  isLoaded:boolean=false;
-  @Input() labels:string[]=[];
-  @Input() data:number[] =[];
+  @Input() dataForPieChart:DataForPieChart={labels:[],data:[]};  
   @Output() chartClicked=new EventEmitter<number>();
   sliceClickedIndex:number=-1;
   public pieChartData!: ChartConfiguration<'pie'>['data']; 
   public pieChartOptions!: ChartOptions<'pie'>;
   public pieChartLegend = true;
 
-  public loadData(){
-    this.pieChartData.labels=this.labels;
-    this.pieChartData.datasets[0].data= this.data;
-  }
-
   ngOnInit(){
   }  
   
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['data'] && changes['labels']) {
+    if (changes['dataForPieChart']) {
       this.pieChartCreation();
       if (this.consoleIsEnabled)
       {
-        console.log('Value changed from ', changes['data'].previousValue, ' to ', changes['data'].currentValue);
+        console.log('Value changed from ', changes['dataForPieChart'].previousValue, ' to ', changes['dataForPieChart'].currentValue);
       }
     }
   }
 
   pieChartCreation(){
     this.pieChartData = {
-      labels: this.labels,
+      labels: this.dataForPieChart.labels,
       datasets: [
         {
-          data:  this.data,
+          data:  this.dataForPieChart.data,
           label: '\ud83c\udfc5',
         }
       ],
@@ -63,7 +57,7 @@ export class PieChartComponent implements OnInit, OnChanges{
           this.sliceClickedIndex=activeEls[0].index;
           if (this.consoleIsEnabled)
           {
-            console.log("Clicked index :" + activeEls[0].index + " | Label : " +this.labels[activeEls[0].index]);
+            console.log("Clicked index :" + activeEls[0].index + " | Label : " +this.dataForPieChart.labels[activeEls[0].index]);
           }
         }
         else
@@ -85,8 +79,8 @@ export class PieChartComponent implements OnInit, OnChanges{
     };   
     if (this.consoleIsEnabled)
     {            
-      console.log("pie data :"+this.data);
-      console.log("pie labels :"+this.labels);
+      console.log("pie data :"+this.dataForPieChart.data);
+      console.log("pie labels :"+this.dataForPieChart.labels);
     }
   }
 }

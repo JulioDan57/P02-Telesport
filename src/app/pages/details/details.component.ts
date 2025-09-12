@@ -1,6 +1,6 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { empty, Observable, of } from 'rxjs';
+import { empty, Observable, of, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic, DataPerCountry } from 'src/app/core/models/Olympic';
 import { CommonModule, LowerCasePipe } from '@angular/common';
@@ -13,7 +13,7 @@ import { DataForLineChart } from 'src/app/core/models/Chart.model';
   styleUrl: './details.component.scss'
 })
 
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   consoleIsEnabled:boolean=false;
   public olympics$!: Observable<Olympic[]>; 
   public olympicData!: Olympic[];
@@ -21,8 +21,9 @@ export class DetailsComponent implements OnInit {
   public selectedCoutryData: DataPerCountry|null=null;
   public countryId="";
   public lowerCasePipe = inject(LowerCasePipe);
-  public dataForLineChart: DataForLineChart|null=null;
-  
+  public dataForCountryLineChart!: DataForLineChart;
+  private olympicSub!: Subscription;
+  private countrySub!: Subscription;
 
   toLowerCase(value: string): string {
     return this.lowerCasePipe.transform(value);
@@ -31,11 +32,19 @@ export class DetailsComponent implements OnInit {
   constructor(private olympicService: OlympicService, private route:ActivatedRoute) {}
 
   ngOnInit(): void {
-    const params=this.route.snapshot.params;
-    this.countryId=params['id'];
-    this.olympics$ = this.olympicService.getOlympics();
 
-    this.olympics$.subscribe((data:Olympic[])=> {
+    // Subscribe to the URL parameters to get the country name
+    this.countrySub = this.route.params.subscribe(params => {
+      const country = params['id'];
+      if (country) {
+          this.countryId = country;
+      }
+    });
+
+    //this.olympicService.getOlympicByCountry(this.countryId).subscribe(data =>this.olympicCountryData=data);
+
+    this.olympics$ = this.olympicService.getOlympics();
+    this.olympicSub=this.olympics$.subscribe((data:Olympic[])=> {
       this.olympicData=data;
       if (data !=null)
       {
@@ -52,14 +61,18 @@ export class DetailsComponent implements OnInit {
           this.selectedCoutryData={country:this.getCountryName(),
                                    numberOfEntries:this.olympicCountryData.participations.length,
                                    totalNumberOfMedals:this.getTotalMedals(),
-                                   totalNumberOfAthletes:this.getTotalAthletes(),
-                                   years:this.getYearAsArray(),
-                                   medalsPerYear:this.getMedalsPerYearAsArray()};  
-          //this.dataForLineChart=this.getDataForCountryLineChart();
+                                   totalNumberOfAthletes:this.getTotalAthletes()};
+          this.dataForCountryLineChart=this.getDataForCountryLineChart();
+          this.dataForCountryLineChart.xAxisLabel="Dates";
         }
       }
     });  
 
+  }
+    // destroy the subscritions to avoid memory leaks.
+  ngOnDestroy(): void {
+    this.olympicSub.unsubscribe();
+    this.countrySub.unsubscribe();
   }
 
 
