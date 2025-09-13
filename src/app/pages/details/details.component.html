@@ -7,19 +7,18 @@
     <div><app-label-and-text label="Total numer of athletes" text={{[selectedCoutryData.totalNumberOfAthletes]}}></app-label-and-text></div>
   </div>
   
-  <app-line-chart [dataForLineChart]=dataForCountryLineChart></app-line-chart>
- 
+  <div class="graph-wrapper">
+    <app-line-chart [dataForLineChart]=dataForCountryLineChart></app-line-chart>
+ </div>  
+
   <br/>
   <div class="center">
-    <!--<input type="button" value="Go back" onclick="history.back()">-->
     <button routerLink=''>Go home</button>
   </div>  
 }@else{
   <p>There is no olympic data for {{countryId}} </p>
     <div class="center">
-    <!--<input type="button" value="Go back" onclick="history.back()">-->
     <button routerLink=''>Go home</button>      
-    <!--<a routerLink="">Go back</a>-->
   </div>  
 }
 

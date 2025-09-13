@@ -52,8 +52,6 @@ export class PieChartComponent implements OnInit, OnChanges{
 
     this.pieChartOptions= {
       responsive: true,
-      maintainAspectRatio: false,
-      aspectRatio: 2,
       onClick: (evt, activeEls, chart) => {
         if (activeEls.length>0){
           this.sliceClickedIndex=activeEls[0].index;

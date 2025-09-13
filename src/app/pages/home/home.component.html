@@ -4,7 +4,8 @@
   <div><app-label-and-text label="Number of countries" text= {{numberOfCountries.toString()}}></app-label-and-text></div>
 </div>
 
+<div class="graph-wrapper">
 <app-pie-chart [dataForPieChart]=dataForCountriesPieChart
                 (chartClicked)="showClickedCountryData($event)"></app-pie-chart>
 <br/>
-
+</div>

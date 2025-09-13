@@ -54,7 +54,6 @@ export class LineChartComponent implements OnInit, OnChanges{
     this.lineChartOptions= {
       responsive: true,
       maintainAspectRatio: false,
-      aspectRatio: 2,
       scales:{
         x:{
           display: true,
