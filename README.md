@@ -7,6 +7,14 @@ Don't forget to install your node_modules before starting (`npm install`).
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+In case of error :
+[ERROR] TS2307: Cannot find module 'chart.js/dist/types/utils' or its corresponding type declarations.
+Open the file "node_modules/ng2-charts/lib/ng-charts.provider.d.ts", and replace the line:
+import { DeepPartial } from 'chart.js/dist/types/utils';
+By
+import { DeepPartial } from 'node_modules/chart.js/dist/types/utils';
+The you can rerun `ng serve`.
+
 
 ## Build
 
