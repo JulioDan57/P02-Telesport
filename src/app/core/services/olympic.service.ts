@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { Olympic } from 'src/app/core/models/Olympic';
+import { Olympic, JsonReadingStatus } from 'src/app/core/models/Olympic';
 import { LowerCasePipe } from '@angular/common';
 
 @Injectable({
@@ -10,24 +10,25 @@ import { LowerCasePipe } from '@angular/common';
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
-  //private olympics$ = new BehaviorSubject<any>(undefined);
   private olympics$ = new BehaviorSubject<Olympic[]>([]);
+  private jsonReadingStatus$=new BehaviorSubject<JsonReadingStatus>({failed:false, message:"Success"});  
   constructor(private http: HttpClient) {}
+
 
   loadInitialData() {
     return this.http.get<Olympic[]>(this.olympicUrl).pipe(
       tap((value) => this.olympics$.next(value)), //lecture et sauvegarde de la valeur
-      catchError((error, caught) => {
-        // TODO: improve error handling
+      catchError((error) => {
         console.error(error);
-        // can be useful to end loading state and let the user know something went wrong
-        //this.olympics$.next(null);
+        // set the error status and the error code 
+        this.jsonReadingStatus$.next({failed:true, message: error.status});
         this.olympics$.next([]);
-        return caught;
+        return of(undefined);
       })
     );
   }
 
+  // return the Olympic observable
   getOlympics() {
     return this.olympics$.asObservable();
   }
@@ -46,5 +47,10 @@ export class OlympicService {
     toLowerCase(value: string): string {
     return this.lowerCasePipe.transform(value);
   }
-  
+
+   // return the jsonReadingStatus observable.
+  getJsonReadingStatus()
+  {
+    return this.jsonReadingStatus$.asObservable();
+  }
 }

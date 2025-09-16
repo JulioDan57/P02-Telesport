@@ -1,11 +1,23 @@
-<div><app-header-text text="Medals per Country"></app-header-text></div>
-<div class="labelGroup">
-  <div><app-label-and-text label="Number of JOs" text= {{numberOfJOs.toString()}}></app-label-and-text></div>
-  <div><app-label-and-text label="Number of countries" text= {{numberOfCountries.toString()}}></app-label-and-text></div>
-</div>
+@if (serverFailed===false)
+{
+  <div><app-header-text text="Medals per Country"></app-header-text></div>
+  <div class="labelGroup">
+    <div><app-label-and-text label="Number of JOs" text= {{numberOfJOs.toString()}}></app-label-and-text></div>
+    <div><app-label-and-text label="Number of countries" text= {{numberOfCountries.toString()}}></app-label-and-text></div>
+  </div>
 
-<div class="graph-wrapper">
-<app-pie-chart [dataForPieChart]=dataForCountriesPieChart
-                (chartClicked)="showClickedCountryData($event)"></app-pie-chart>
-<br/>
-</div>
+  <div class="graph-wrapper">
+  <app-pie-chart [dataForPieChart]=dataForCountriesPieChart
+                  (chartClicked)="showClickedCountryData($event)"></app-pie-chart>
+  <br/>
+  </div>
+}@else{
+  <body>
+    <div class="labelAndTextError">
+      Error : {{serverError}}<br/>
+      <p>{{serverMessageError}}</p>
+      <p>If the problem persists. Please report your problem and mention the error message.</p>
+      <p>The TELESPORT team.</p>
+    </div>
+  </body>
+}

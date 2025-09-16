@@ -21,13 +21,12 @@ export interface DataPerCountry
     numberOfEntries:number;
     totalNumberOfMedals:number;
     totalNumberOfAthletes:number;
-    //years:number[];
-    //medalsPerYear:number[];
 }
 
-/*export interface DataForCountriesPieChart
+export interface JsonReadingStatus
 {
-  xData:string[];
-  yData:number[];
-}*/
+  failed:boolean;
+  message:string; 
+}
+
 

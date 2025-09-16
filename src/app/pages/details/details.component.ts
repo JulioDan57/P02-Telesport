@@ -45,13 +45,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.olympicSub=this.olympicService.getOlympicByCountry(this.countryId).subscribe(data =>{
       this.olympicCountryData=data;
       if (this.olympicCountryData!=null){
-
+        this.dataForCountryLineChart=this.getDataForCountryLineChart();
+        this.dataForCountryLineChart.xAxisLabel="Dates";        
         this.selectedCoutryData={country:this.getCountryName(),
-                                  numberOfEntries:this.olympicCountryData.participations.length,
+                                  numberOfEntries:this.dataForCountryLineChart.data.length,
                                   totalNumberOfMedals:this.getTotalMedals(),
                                   totalNumberOfAthletes:this.getTotalAthletes()};
-        this.dataForCountryLineChart=this.getDataForCountryLineChart();
-        this.dataForCountryLineChart.xAxisLabel="Dates";
+
       }
     });
   }
@@ -66,10 +66,24 @@ export class DetailsComponent implements OnInit, OnDestroy {
   getDataForCountryLineChart():DataForLineChart{
     var medalsPerYear:number[]=[];
     var years:number[]=[];
+    var foundIndex!:number;
     if (this.olympicCountryData!=undefined){
       this.olympicCountryData.participations.forEach(participation => {
-        medalsPerYear.push(participation.medalsCount); 
-        years.push(participation.year);            
+        if (years.length>0)
+        {
+          foundIndex=years.findIndex((element) => element == participation.year);
+          if (foundIndex===-1)
+          {
+            years.push(participation.year);            
+            medalsPerYear.push(participation.medalsCount); 
+          }
+          else{
+            medalsPerYear[foundIndex]+=participation.medalsCount;
+          }
+        }else{
+          years.push(participation.year);            
+          medalsPerYear.push(participation.medalsCount); 
+        }
       });      
     }
     return {labels:years, data:medalsPerYear};
