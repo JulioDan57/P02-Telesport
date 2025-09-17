@@ -2,9 +2,9 @@
 {
   <div><app-header-text [text]="selectedCoutryData.country"></app-header-text></div>
   <div class="labelGroup">
-    <div><app-label-and-text label="Numer of JOs" text={{[selectedCoutryData.numberOfEntries]}}></app-label-and-text></div>
-    <div><app-label-and-text label="Total numer of medals" text={{[selectedCoutryData.totalNumberOfMedals]}}> </app-label-and-text></div>
-    <div><app-label-and-text label="Total numer of athletes" text={{[selectedCoutryData.totalNumberOfAthletes]}}></app-label-and-text></div>
+    <div><app-label-and-text label="Number of JOs" text={{[selectedCoutryData.numberOfEntries]}}></app-label-and-text></div>
+    <div><app-label-and-text label="Total number of medals" text={{[selectedCoutryData.totalNumberOfMedals]}}> </app-label-and-text></div>
+    <div><app-label-and-text label="Total number of athletes" text={{[selectedCoutryData.totalNumberOfAthletes]}}></app-label-and-text></div>
   </div>
   
   <div class="graph-wrapper">
@@ -13,12 +13,12 @@
 
   <br/>
   <div class="center">
-    <button routerLink=''>Go home</button>
+    <button routerLink=''>Back to home</button>
   </div>  
 }@else{
   <p>There is no olympic data for {{countryId}} </p>
     <div class="center">
-    <button routerLink=''>Go home</button>      
+    <button routerLink=''>Back to home</button>      
   </div>  
 }
 
