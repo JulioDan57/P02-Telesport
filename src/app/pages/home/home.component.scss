@@ -6,14 +6,10 @@
 }
 
 .graph-wrapper {
-    margin: auto;
-    margin-left: -10px;
-    width: 800px;
+    width: 700px;
     max-width: 100%;
-    height: auto;
-    @media screen and (min-width: 576px) {
-        margin-left: auto;
-    }
+    height: 300px;
+    margin: auto;
 }
 
 .labelAndTextError {

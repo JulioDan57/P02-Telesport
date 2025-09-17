@@ -15,7 +15,6 @@ Chart.register(...registerables );
 })
 
 export class LineChartComponent implements OnInit, OnChanges{
-  consoleIsEnabled:boolean=false;
   @Input() dataForLineChart:DataForLineChart ={labels:[],data:[],xAxisLabel:""};
   public lineChartData!: ChartConfiguration<'line'>['data']; 
   public lineChartOptions!: ChartOptions<'line'>;
@@ -27,10 +26,6 @@ export class LineChartComponent implements OnInit, OnChanges{
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataForLineChart']) {
       this.lineChartCreation();
-      if (this.consoleIsEnabled)
-      {      
-        console.log('Value changed from ', changes['dataForLineChart'].previousValue, ' to ', changes['dataForLineChart'].currentValue);
-      }
     }
   }
 

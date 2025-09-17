@@ -16,7 +16,6 @@ Chart.register(...registerables );
 })
 
 export class PieChartComponent implements OnInit, OnChanges{
-  consoleIsEnabled:boolean=false;
   @Input() dataForPieChart:DataForPieChart={labels:[],data:[]};  
   @Output() chartClicked=new EventEmitter<number>(); 
   sliceClickedIndex:number=-1;
@@ -31,10 +30,6 @@ export class PieChartComponent implements OnInit, OnChanges{
   ngOnChanges(changes: SimpleChanges) {
     if (changes['dataForPieChart']) {
       this.pieChartCreation();
-      if (this.consoleIsEnabled)
-      {
-        console.log('Value changed from ', changes['dataForPieChart'].previousValue, ' to ', changes['dataForPieChart'].currentValue);
-      }
     }
   }
 
@@ -52,21 +47,14 @@ export class PieChartComponent implements OnInit, OnChanges{
 
     this.pieChartOptions= {
       responsive: true,
+      maintainAspectRatio: false,
       onClick: (evt, activeEls, chart) => {
         if (activeEls.length>0){
           this.sliceClickedIndex=activeEls[0].index;
-          if (this.consoleIsEnabled)
-          {
-            console.log("Clicked index :" + activeEls[0].index + " | Label : " +this.dataForPieChart.labels[activeEls[0].index]);
-          }
         }
         else
         {
           this.sliceClickedIndex=-1;
-          if (this.consoleIsEnabled)
-          {          
-            console.log("Clicked out");
-          }
         }
         this.chartClicked.emit(this.sliceClickedIndex);
       },
@@ -77,10 +65,5 @@ export class PieChartComponent implements OnInit, OnChanges{
         },
       }    
     };   
-    if (this.consoleIsEnabled)
-    {            
-      console.log("pie data :"+this.dataForPieChart.data);
-      console.log("pie labels :"+this.dataForPieChart.labels);
-    }
   }
 }

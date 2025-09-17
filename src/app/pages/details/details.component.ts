@@ -14,7 +14,6 @@ import { DataForLineChart } from 'src/app/core/models/Chart.model';
 })
 
 export class DetailsComponent implements OnInit, OnDestroy {
-  consoleIsEnabled:boolean=false;
   public olympics$!: Observable<Olympic[]>; 
   public olympicData!: Olympic[];
   private olympicCountryData:Olympic|undefined= undefined;

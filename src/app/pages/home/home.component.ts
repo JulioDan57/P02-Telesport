@@ -12,21 +12,19 @@ import { DataForPieChart } from 'src/app/core/models/Chart.model';
 })
 
 export class HomeComponent implements OnInit, OnDestroy {
-  consoleIsEnabled:boolean=false;
   public olympics$!: Observable<Olympic[]>;
   public olympicData!: Olympic[];
   public numberOfJOs:number=0;
   public numberOfCountries:number=0;
   public sliceIndexSelected=-1;
   public dataForCountriesPieChart!:DataForPieChart;
-  private router = inject(Router);
   private olympicSub!: Subscription;
   public serverFailed:boolean=false;
   public serverError:string="";
   public serverMessageError:String=""; 
   private errorSub!: Subscription;
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicService: OlympicService, private router: Router) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
@@ -52,12 +50,6 @@ export class HomeComponent implements OnInit, OnDestroy {
           this.dataForCountriesPieChart=this.getDataForCountriesPieChart();
           this.numberOfJOs=this.getNumberOfJOs();
           this.numberOfCountries=this.olympicData.length;
-          if (this.consoleIsEnabled)
-          {
-            console.log("Number of olympic countries into the json file : " + this.olympicData.length);   
-            console.log("data[0] : " + this.dataForCountriesPieChart.data[0]);   
-            console.log("dataForCountriesPieChart : " + this.dataForCountriesPieChart);   
-          }
        }
 
     },);
@@ -74,16 +66,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.sliceIndexSelected=countryIndex;
     if (countryIndex!=-1)
     {
-      if (this.consoleIsEnabled){
-        console.log("selected country : " + this.dataForCountriesPieChart.labels[countryIndex]);
-      }
       this.router.navigate(['/details'+'/'+  this.dataForCountriesPieChart.labels[countryIndex]]);
-    }
-    else
-    {
-      if (this.consoleIsEnabled){
-        console.log("Bad country index :"+ countryIndex);
-      }
     }
   }
 
