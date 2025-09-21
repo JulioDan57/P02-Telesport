@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit, inject  } from '@angular/core';
-import { empty, Observable, of, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { Olympic, DataPerCountry, JsonReadingStatus } from 'src/app/core/models/Olympic';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Olympic, JsonReadingStatus } from 'src/app/core/models/Olympic';
+import { Router } from '@angular/router';
 import { DataForPieChart } from 'src/app/core/models/Chart.model';
 @Component({
     selector: 'app-home',

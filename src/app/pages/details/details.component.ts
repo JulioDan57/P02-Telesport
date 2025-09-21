@@ -1,9 +1,9 @@
-import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { empty, Observable, of, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { Olympic, DataPerCountry } from 'src/app/core/models/Olympic';
-import { CommonModule, LowerCasePipe } from '@angular/common';
+import { LowerCasePipe } from '@angular/common';
 import { DataForLineChart } from 'src/app/core/models/Chart.model';
 
 @Component({
