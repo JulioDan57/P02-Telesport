@@ -59,4 +59,4 @@ The architecture includes (in addition to the default angular architecture) the 
 
 ## Author
 
-Julio Daniel
+Julio Daniel GIL CANO
